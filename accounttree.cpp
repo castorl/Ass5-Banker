@@ -17,16 +17,12 @@ AccountTree::~AccountTree(){
 // Insert new account, returns true if successful
 //ordered by ID number.
 bool AccountTree::insert(Account* account) {
-    int newID = account->getID();
     //check if root is null
     if(root == nullptr){
         root = new Node(account);
         return true;
     }
-    else {
         return insertRecursive(root,account);
-    }
-    return false;
 }
 
 // Retrieve account
@@ -66,7 +62,7 @@ bool AccountTree::isEmpty() const {
 //if lower than root go left, higher go right
 bool AccountTree::insertRecursive(Node* curr, Account* account){
     //less go left
-    if(account->getID() ){
+    if(account->getID() < curr-> getAccount()-> getID()){
         //base case for recursion
         if(curr->getLeft() == nullptr){//if left ptr is null(so leaf)
             Node* newNodeAccount = new Node(account);
