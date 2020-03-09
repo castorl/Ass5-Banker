@@ -38,9 +38,7 @@ bool AccountTree::retrieveRecursive(Node* curr, const int& acctID,
                                     Account*& account) const {
     // start at root and search binary
     // base case
-    if (curr->getAccount()->getID() == acctID &&
-        curr->getAccount()->getFirst() == account->getFirst() &&
-        curr->getAccount()->getLast() == account->getLast()) {
+    if (curr->getAccount()->getID() == acctID) {
         account = curr->getAccount();
         return true;
     }
@@ -129,47 +127,4 @@ void AccountTree::clearR(Node* curr) {
 bool AccountTree::isEmpty() const {
     // if there is no root, then there is nothing
     return root == nullptr;
-}
-
-// return true if the account ID number is already in use
-bool AccountTree::idExists(int& id) const {
-    if (!isEmpty()) // search for ID if tree is not empty
-        return findId(id, root);
-    return false;
-}
-
-bool AccountTree::findId(int& id, Node* curr) const {
-    if (curr->getAccount() == nullptr) // reached child, id not found
-        return false;
-
-    // if ID found
-    if (curr->getAccount()->getID() == id) {
-        return true;
-    }
-
-    // if id is less go left
-    if (curr->getAccount()->getID() < id) {
-        return findId(id, curr->getLeft());
-    } else { // id is more, go right
-        return findId(id, curr->getRight());
-    }
-}
-
-// retrieves address of an account that exists
-Account* AccountTree::fetch(int& id) const {
-    return fetchR(id, root)->getAccount();
-}
-
-// fetch account recursive helper method
-Node* AccountTree::fetchR(int id, Node* curr) const {
-    // account found
-    if (curr->getAccount()->getID() == id) {
-        return curr;
-    } 
-    // not found yet, keep recursing
-    if (curr->getAccount()->getID() < id) {
-        return fetchR(id, curr->getLeft());
-    } else { // id is more, go right
-        return fetchR(id, curr->getRight());
-    }
 }

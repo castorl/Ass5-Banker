@@ -152,13 +152,14 @@ void Bank::addToQueue(const string& fileName) {
 
 // helper function that executes transactions, uses switch case to decide
 void Bank::processQueue() {
+    Account* hold; // holds the account searched for, if found
     while (!transactionsQ.empty()) {
-        Action *tracker = &transactionsQ.front();
+        Action *tracker = &transactionsQ.front(); // holds first item in queue
         switch (tracker->transType) {
             case 'O': { // open account
                 Account* openNew = new Account(tracker->first, tracker->last,
                                                tracker->acctTo);
-                if (accounts.retrieve(tracker->acctTo, openNew) ||
+                if (accounts.retrieve(tracker->acctTo, hold) ||
                     !accounts.insert(openNew)) { 
                     // if account exists or couldn't insert
                     cout << "Error, account or account ID already in use.";
@@ -166,16 +167,15 @@ void Bank::processQueue() {
                 break;
             }
             case 'D': { // deposit
-                if (accounts.idExists(tracker->acctTo)) {
-                    Account* temp = &accounts.fetch(tracker->acctTo);
+                if (accounts.retrieve(tracker->acctTo, hold)) {
                     // make the deposit and record the transaction
-                    temp->deposit(tracker->amount, tracker->fundTo);
+                    hold->deposit(tracker->amount, tracker->fundTo);
                     string recordD =
                         to_string(tracker->transType) + " " + 
                         to_string(tracker->acctTo) +
                         to_string(tracker->fundTo) + " " + 
                         to_string(tracker->amount);
-                    temp->recordTrans(recordD, tracker->fundTo);
+                    hold->recordTrans(recordD, tracker->fundTo);
                 } else { // if account not found
                     cout << "Could not locate account with client ID "
                          << tracker->acctTo << "." << endl;
@@ -184,9 +184,8 @@ void Bank::processQueue() {
             }
             // withdraw
             case 'W': {
-                if (accounts.idExists(tracker->acctTo)) {
-                    Account* temp = &accounts.fetch(tracker->acctFrom);
-                    if (temp->withdraw(tracker->amount, 
+                if (accounts.retrieve(tracker->acctTo, hold)) {
+                    if (hold->withdraw(tracker->amount, 
                                        tracker->fundFrom)) {
                         // make the withdrawal and record the transaction
                         string recordW =
@@ -194,7 +193,7 @@ void Bank::processQueue() {
                             to_string(tracker->acctFrom) +
                             to_string(tracker->fundFrom) + " " + 
                             to_string(tracker->amount);
-                        temp->recordTrans(recordW, tracker->fundFrom);
+                        hold->recordTrans(recordW, tracker->fundFrom);
                         ;
                     } else
                         cout << "Error, attempting to take out more than "
@@ -208,12 +207,11 @@ void Bank::processQueue() {
             }
             // transfer
             case 'T': {
+                Account* hold2; // pointer to hold the account to transfer to
                 // if both accounts exist
-                if (accounts.idExists(tracker->acctFrom) &&
-                    accounts.idExists(tracker->acctTo)) {
-                    Account* temp = &accounts.fetch(tracker->acctFrom);
-                    Account* temp2 = &accounts.fetch(tracker->acctTo);
-                    if (temp->withdraw(tracker->amount, tracker->fundFrom)) {
+                if (accounts.retrieve(tracker->acctFrom, hold) &&
+                    accounts.retrieve(tracker->acctTo, hold2)) {
+                    if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
                         // make the withdrawal and record the transaction
                         string recordW =
                             to_string(tracker->transType) + " " + 
@@ -222,17 +220,17 @@ void Bank::processQueue() {
                             to_string(tracker->amount) + " " + 
                             to_string(tracker->acctTo) + 
                             to_string(tracker->fundTo);
-                        temp->recordTrans(recordW,
+                        hold->recordTrans(recordW,
                                           tracker->fundFrom);
                         ;
                         // make the desposit and record the transaction
-                        temp2->deposit(tracker->amount, tracker->fundTo);
+                        hold2->deposit(tracker->amount, tracker->fundTo);
                         string recordD =
                             to_string(tracker->transType) + " " + 
                             to_string(tracker->acctTo) +
                             to_string(tracker->fundTo) + " " + 
                             to_string(tracker->amount);
-                        temp2->recordTrans(recordD, tracker->fundTo);
+                        hold2->recordTrans(recordD, tracker->fundTo);
                     } else
                         cout << "Error, attempting to take out more than "
                                 "available balance."
@@ -245,9 +243,8 @@ void Bank::processQueue() {
             }
             // print history
             case 'H': {
-                if (accounts.idExists(tracker->acctFrom)) {
-                    Account* temp = &accounts.fetch(tracker->acctFrom);
-                    temp->displayTrans(tracker->fundFrom);
+                if (accounts.retrieve(tracker->acctFrom, hold)) {
+                    hold->displayTrans(tracker->fundFrom);
                 } else {
                 cout << "Could not locate account with client ID "
                          << tracker->acctFrom << "." << endl;

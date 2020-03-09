@@ -31,7 +31,7 @@ class Account {
 
   public:
     // creates account with first, last, and accID
-    explicit Account(string lastName, string firstName, int accID);
+    explicit Account(string lastName = nullptr, string firstName = nullptr, int accID = 0);
 
     // destructor
     virtual ~Account();
