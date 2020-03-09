@@ -107,6 +107,7 @@ bool AccountTree::retrieveRecursive(Node* curr,const int& acctID, Account*& acco
     //base case
     if(curr->getAccount()->getID() == acctID){
         account = curr->getAccount();
+        return true; 
     }
     //if account is less go right
     if(curr->getAccount()->getID() < account->getID()){
