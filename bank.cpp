@@ -15,7 +15,6 @@
  *
  * */
 #include "bank.h"
-#include "accounttree.h"
 #include <fstream>
 #include <iostream>
 #include <queue>
@@ -58,7 +57,6 @@ void Bank::addToQueue(const string& fileName) {
     char type;
     string lastName, firstName;
     int acctNum, acctNum2, amt, fund, fund2;
-
     // while not end of file
     // add transactions to queue
     while (!inFile.eof()) {
@@ -67,84 +65,85 @@ void Bank::addToQueue(const string& fileName) {
         s >> type;
 
         switch (type) {
-            case 'O': // open account transaction
-            {
-                s >> lastName >> firstName >> acctNum;
+        case 'O': // open account transaction
+        {
+            s >> lastName >> firstName >> acctNum;
 
-                Action newAcct;
-                newAcct.transType = type;
-                newAcct.last = lastName;
-                newAcct.first = firstName;
-                newAcct.acctTo = acctNum;
+            Action newAcct;
+            newAcct.transType = type;
+            newAcct.last = lastName;
+            newAcct.first = firstName;
+            newAcct.acctTo = acctNum;
 
-                transactionsQ.push(newAcct);
-                break;
-            }
-            case 'D': // deposit transaction
-            {
-                s >> acctNum >> amt;
+            transactionsQ.push(newAcct);
+            break;
+        }
+        case 'D': // deposit transaction
+        {
+            s >> acctNum >> amt;
+            fund = acctNum % 10;
+            acctNum = acctNum / 10;
+
+            Action deposit;
+            deposit.transType = type;
+            deposit.acctTo = acctNum;
+            deposit.amount = amt;
+            deposit.fundTo = fund;
+
+            transactionsQ.push(deposit);
+            break;
+        }
+        case 'W': // withdraw transaction
+        {
+            s >> acctNum >> amt;
+            fund = acctNum % 10;
+            acctNum = acctNum / 10;
+
+            Action withdraw;
+            withdraw.transType = type;
+            withdraw.acctFrom = acctNum;
+            withdraw.amount = amt;
+            withdraw.fundFrom = fund;
+
+            transactionsQ.push(withdraw);
+            break;
+        }
+        case 'T': // transfer transaction
+        {
+            s >> acctNum >> amt >> acctNum2;
+            fund = acctNum % 10;
+            acctNum = acctNum / 10;
+            fund2 = acctNum2 % 10;
+            acctNum2 = acctNum2 / 10;
+
+            Action transfer;
+            transfer.transType = type;
+            transfer.acctTo = acctNum2;
+            transfer.acctFrom = acctNum;
+            transfer.amount = amt;
+            transfer.fundFrom = fund;
+            transfer.fundTo = fund2;
+
+            transactionsQ.push(transfer);
+            break;
+        }
+        case 'H': // display history
+        {
+            s >> acctNum;
+            if (acctNum > 9999) { // display history of specific fund
                 fund = acctNum % 10;
                 acctNum = acctNum / 10;
-
-                Action deposit;
-                deposit.transType = type;
-                deposit.acctTo = acctNum;
-                deposit.amount = amt;
-                deposit.fundTo = fund;
-
-                transactionsQ.push(deposit);
-                break;
+            } else {       // display history of whole account
+                fund = -1; // no fund specified
             }
-            case 'W': // withdraw transaction
-            {
-                s >> acctNum >> amt;
-                fund = acctNum % 10;
-                acctNum = acctNum / 10;
+            Action history;
+            history.transType = type;
+            history.acctFrom = acctNum;
+            history.fundFrom = fund;
 
-                Action withdraw;
-                withdraw.transType = type;
-                withdraw.acctFrom = acctNum;
-                withdraw.amount = amt;
-                withdraw.fundFrom = fund;
-
-                transactionsQ.push(withdraw);
-                break;
-            }
-            case 'T': // transfer transaction
-            {
-                s >> acctNum >> amt >> acctNum2;
-                fund = acctNum % 10;
-                acctNum = acctNum / 10;
-                fund2 = acctNum2 % 10;
-                acctNum2 = acctNum2 / 10;
-
-                Action transfer;
-                transfer.transType = type;
-                transfer.acctTo = acctNum2;
-                transfer.acctFrom = acctNum;
-                transfer.amount = amt;
-                transfer.fundFrom = fund;
-                transfer.fundTo = fund2;
-
-                transactionsQ.push(transfer);
-                break;
-            }
-            case 'H': // display history
-            {
-                s >> acctNum;
-                if (acctNum > 9999) { // display history of specific fund
-                    fund = acctNum % 10;
-                    acctNum = acctNum / 10;
-                } else {       // display history of whole account
-                    fund = -1; // no fund specified
-                }
-                Action history;
-                history.acctFrom = acctNum;
-                history.fundFrom = fund;
-
-                transactionsQ.push(history);
-                break;
-            }
+            transactionsQ.push(history);
+            break;
+        }
         }
     }
     inFile.close();
@@ -154,103 +153,103 @@ void Bank::addToQueue(const string& fileName) {
 void Bank::processQueue() {
     Account* hold; // holds the account searched for, if found
     while (!transactionsQ.empty()) {
-        Action *tracker = &transactionsQ.front(); // holds first item in queue
+        Action* tracker = &transactionsQ.front(); // holds first item in queue
         switch (tracker->transType) {
-            case 'O': { // open account
-                Account* openNew = new Account(tracker->first, tracker->last,
-                                               tracker->acctTo);
-                if (accounts.retrieve(tracker->acctTo, hold) ||
-                    !accounts.insert(openNew)) { 
-                    // if account exists or couldn't insert
-                    cout << "Error, account or account ID already in use.";
-                }
+        case 'O': { // open account
+            Account* openNew =
+                new Account(tracker->first, tracker->last, tracker->acctTo);
+            if (accounts.retrieve(tracker->acctTo, hold)) {
+                // if the account number is already in use
+                cout << "Error, account ID already in use.";
                 break;
             }
-            case 'D': { // deposit
-                if (accounts.retrieve(tracker->acctTo, hold)) {
-                    // make the deposit and record the transaction
-                    hold->deposit(tracker->amount, tracker->fundTo);
-                    string recordD =
-                        to_string(tracker->transType) + " " + 
-                        to_string(tracker->acctTo) +
-                        to_string(tracker->fundTo) + " " + 
-                        to_string(tracker->amount);
-                    hold->recordTrans(recordD, tracker->fundTo);
-                } else { // if account not found
-                    cout << "Could not locate account with client ID "
-                         << tracker->acctTo << "." << endl;
-                }
-                break;
-            }
-            // withdraw
-            case 'W': {
-                if (accounts.retrieve(tracker->acctTo, hold)) {
-                    if (hold->withdraw(tracker->amount, 
-                                       tracker->fundFrom)) {
-                        // make the withdrawal and record the transaction
-                        string recordW =
-                            to_string(tracker->transType) + " " + 
-                            to_string(tracker->acctFrom) +
-                            to_string(tracker->fundFrom) + " " + 
-                            to_string(tracker->amount);
-                        hold->recordTrans(recordW, tracker->fundFrom);
-                        ;
-                    } else
-                        cout << "Error, attempting to take out more than "
-                                "available balance." << endl;
-                } else {
-                    // print error in transaction history of no account
-                    cout << "Could not locate account with client ID " 
-                         << tracker->acctTo << "." << endl;
-                }
-                break;
-            }
-            // transfer
-            case 'T': {
-                Account* hold2; // pointer to hold the account to transfer to
-                // if both accounts exist
-                if (accounts.retrieve(tracker->acctFrom, hold) &&
-                    accounts.retrieve(tracker->acctTo, hold2)) {
-                    if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
-                        // make the withdrawal and record the transaction
-                        string recordW =
-                            to_string(tracker->transType) + " " + 
-                            to_string(tracker->acctFrom) +
-                            to_string(tracker->fundFrom) + " " + 
-                            to_string(tracker->amount) + " " + 
-                            to_string(tracker->acctTo) + 
-                            to_string(tracker->fundTo);
-                        hold->recordTrans(recordW,
-                                          tracker->fundFrom);
-                        ;
-                        // make the desposit and record the transaction
-                        hold2->deposit(tracker->amount, tracker->fundTo);
-                        string recordD =
-                            to_string(tracker->transType) + " " + 
-                            to_string(tracker->acctTo) +
-                            to_string(tracker->fundTo) + " " + 
-                            to_string(tracker->amount);
-                        hold2->recordTrans(recordD, tracker->fundTo);
-                    } else
-                        cout << "Error, attempting to take out more than "
-                                "available balance."
-                             << endl;
-                } else {
-                    cout << "Could not locate account of one or more of the "
-                        "client IDs." << endl;
-                }
-                break;
-            }
-            // print history
-            case 'H': {
-                if (accounts.retrieve(tracker->acctFrom, hold)) {
-                    hold->displayTrans(tracker->fundFrom);
-                } else {
+            accounts.insert(openNew);
+            break;
+        }
+        case 'D': { // deposit
+            if (accounts.retrieve(tracker->acctTo, hold)) {
+                // make the deposit and record the transaction
+                hold->deposit(tracker->amount, tracker->fundTo);
+                string recordD;
+                recordD += tracker->transType;
+                recordD += " " + to_string(tracker->acctTo) +
+                           to_string(tracker->fundTo) + " " +
+                           to_string(tracker->amount);
+                hold->recordTrans(recordD, tracker->fundTo);
+            } else { // if account not found
                 cout << "Could not locate account with client ID "
-                         << tracker->acctFrom << "." << endl;
-                }
-                break;
+                     << tracker->acctTo << "." << endl;
             }
+            break;
+        }
+        // withdraw
+        case 'W': {
+            if (accounts.retrieve(tracker->acctFrom, hold)) {
+                if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
+                    // make the withdrawal and record the transaction
+                    string recordW;
+                    recordW += tracker->transType;
+                    recordW += " " + to_string(tracker->acctFrom) +
+                               to_string(tracker->fundFrom) + " " +
+                               to_string(tracker->amount);
+                    hold->recordTrans(recordW, tracker->fundFrom);
+                    ;
+                } else
+                    cout << "Error, attempting to take out more than "
+                            "available balance."
+                         << endl;
+            } else {
+                // print error in transaction history of no account
+                cout << "Could not locate account with client ID "
+                     << tracker->acctTo << "." << endl;
+            }
+            break;
+        }
+        // transfer
+        case 'T': {
+            Account* hold2; // pointer to hold the account to transfer to
+            // if both accounts exist
+            if (accounts.retrieve(tracker->acctFrom, hold) &&
+                accounts.retrieve(tracker->acctTo, hold2)) {
+                if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
+                    // make the withdrawal and record the transaction
+                    string recordW;
+                    recordW += tracker->transType;
+                    recordW += " " + to_string(tracker->acctFrom) +
+                               to_string(tracker->fundFrom) + " " +
+                               to_string(tracker->amount) + " " +
+                               to_string(tracker->acctTo) +
+                               to_string(tracker->fundTo);
+                    hold->recordTrans(recordW, tracker->fundFrom);
+                    ;
+                    // make the desposit and record the transaction
+                    hold2->deposit(tracker->amount, tracker->fundTo);
+                    string recordD = to_string(tracker->transType) + " " +
+                                     to_string(tracker->acctTo) +
+                                     to_string(tracker->fundTo) + " " +
+                                     to_string(tracker->amount);
+                    hold2->recordTrans(recordD, tracker->fundTo);
+                } else
+                    cout << "Error, attempting to take out more than "
+                            "available balance."
+                         << endl;
+            } else {
+                cout << "Could not locate account of one or more of the "
+                        "client IDs."
+                     << endl;
+            }
+            break;
+        }
+        // print history
+        case 'H': {
+            if (accounts.retrieve(tracker->acctFrom, hold)) {
+                hold->displayTrans(tracker->fundFrom);
+            } else {
+            cout << "Could not locate account with client ID "
+                     << tracker->acctFrom << "." << endl;
+            }
+            break;
+        }
         } // end of switch
         // pop action from queue
         transactionsQ.pop();

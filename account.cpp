@@ -11,11 +11,11 @@
 using namespace std;
 // displays account info and final fund balances
 ostream& operator<<(ostream& out, const Account& other) {
-    out << other.firstName << " " << other.lastName
+    cout << other.firstName << " " << other.lastName
         << " Account ID:" << other.accID << "\n";
 
     for (int i = 0; i < 10; i++) {
-        out << "\t" << other.acctFunds[i].fundName << ": "
+        cout << "\t" << other.acctFunds[i].fundName << ": "
             << other.acctFunds[i].balance << "\n";
     }
     return out;
@@ -27,9 +27,10 @@ Account::Account(string lastName, string firstName, int accID) {
     this->lastName = lastName;
     this->accID = accID;
     string name[] = {
-        "Money Market",      "Prime Money Market", "Short-Term Bond",
-        "500 Index Fund",    "Capital Value Fund", "Growth Equity Fund",
-        "Growth Index Fund", "Value Fund",         "Value Stock Index"};
+        "Money Market",      "Prime Money Market", "Long-Term Bond",
+        "Short-Term Bond",   "500 Index Fund",     "Capital Value Fund",
+        "Growth Equity Fund","Growth Index Fund",  "Value Fund",
+        "Value Stock Index"};
     for (int i = 0; i < 10; i++) {
         acctFunds[i].fundName = name[i];
     }
@@ -83,7 +84,7 @@ void Account::displayTrans(int fund) const {
             for (int i = 0; i < a.fundRecord.size(); i++) {
                 cout << "\t" << a.fundRecord[i] << endl;
             }
-        }
+        } 
     } else {
         cout << "'s " << acctFunds[fund].fundName << ": $"
              << acctFunds[fund].balance << endl;

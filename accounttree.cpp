@@ -23,36 +23,6 @@ bool AccountTree::insert(Account* account) {
     return insertRecursive(root, account);
 }
 
-// Retrieve account
-// returns true if successful AND *account points to account
-bool AccountTree::retrieve(const int& accountNumber, Account*& account) const {
-    // starts at root and calls recursive that does binary search
-    if (!isEmpty()) {
-        return retrieveRecursive(root, accountNumber, account);
-    }
-    return false;
-}
-
-// recursive retrieve helper
-bool AccountTree::retrieveRecursive(Node* curr, const int& acctID,
-                                    Account*& account) const {
-    // start at root and search binary
-    // base case
-    if (curr->getAccount()->getID() == acctID) {
-        account = curr->getAccount();
-        return true;
-    }
-    // if account is less go right
-    if (curr->getAccount()->getID() < account->getID()) {
-        return retrieveRecursive(curr->getLeft(), acctID, account);
-    }
-    // greater go left
-    if (curr->getAccount()->getID() > account->getID()) {
-        return retrieveRecursive(curr->getRight(), acctID, account);
-    }
-    return false;
-}
-
 // recursive insert recursive helper
 // if lower than root go left, higher go right
 bool AccountTree::insertRecursive(Node* curr, Account* account) {
@@ -65,7 +35,7 @@ bool AccountTree::insertRecursive(Node* curr, Account* account) {
             return true;
         }
         return insertRecursive(curr->getLeft(), account);
-    }
+    } 
     if (account->getID() > curr->getAccount()->getID()) {
         // base case for recursion
         if (curr->getRight() == nullptr) { // if right ptr is null(so leaf)
@@ -76,6 +46,38 @@ bool AccountTree::insertRecursive(Node* curr, Account* account) {
         return insertRecursive(curr->getRight(), account);
     }
     // greater go right
+    return false;
+}
+
+// Retrieve account
+// returns true if successful AND *account points to account
+bool AccountTree::retrieve(const int& accountNumber, Account*& account) {
+    // starts at root and calls recursive that does binary search
+    if (!isEmpty()) {
+        return retrieveRecursive(root, accountNumber, account);
+    }
+    return false;
+}
+
+// recursive retrieve helper
+bool AccountTree::retrieveRecursive(Node* curr, const int& acctID,
+                                    Account*& account) {
+    // start at root and search binary
+    if (curr != nullptr) {
+        if (curr->getAccount()->getID() == acctID) {
+            account = curr->getAccount();
+            return true;
+        }
+        if (acctID < curr->getAccount()->getID()) {
+            Node* nextNode = curr->getLeft();
+            return retrieveRecursive(nextNode, acctID, account);
+        }
+        if (acctID > curr->getAccount()->getID()) {
+            Node* nextNode = curr->getRight();
+            return retrieveRecursive(nextNode, acctID, account);
+        }
+    }
+    account = nullptr;
     return false;
 }
 
