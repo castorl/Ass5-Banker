@@ -1,5 +1,5 @@
 //
-// Created by <Name> on <Date>.
+// Created by Melanie Alexandra Palomino & Alana Yao on March 6, 2020.
 //
 // Types of funds
 // 0: Money Market
@@ -29,18 +29,20 @@ class Account {
     // fund
     friend ostream& operator<<(ostream& out, const Account& other);
 
-public:
+  public:
     // creates account with first, last, and accID
     explicit Account(string lastName, string firstName, int accID);
 
     // destructor
     virtual ~Account();
 
+    // creates funds for new account
+    bool openAccount(Account* account);
 
     // deposits amount into fund type of account
     bool deposit(int amt, int type);
 
-    // withdraws amount from fund type
+    // withdraws ammunt from fund type
     bool withdraw(int amt, int type);
 
     // transfers amount into one fund type to another of the same account or
@@ -50,22 +52,19 @@ public:
     // dipslays transaction history
     void displayTrans(int fund) const;
 
-    //returns ID number
+    // returns account ID
     int getID() const;
 
-    //returns first name
+    // returns client first name
     string getFirst() const;
 
-    //returns last name
+    // returns client last name
     string getLast() const;
 
-    //returns balance
-    int getBalance(int fund) const;
-
-    //helper function to execute exception
-    bool withdrawExcerption(int amt, int fund, int fund2, int extra);
-
-private:
+    // helper function that records transcations to each fund
+    void recordTrans(string& transaction, int num);
+    
+  private:
     // Fund has its own properties
     struct Fund {
         // name of fun
@@ -86,7 +85,4 @@ private:
     // account id number that links with the name of the account
     // 1000<= ID <= 9999
     int accID;
-
-    // helper function that records transcations
-    void recordTrans(string& transaction, int num);
 };
