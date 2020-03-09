@@ -54,12 +54,44 @@ bool Account::withdraw(int amt, int type) {
         int extra = -1 * (acctFunds[type].balance - amt); //make it positive
         int type2;
         if(type == 0 || type == 1){
-            type2 = (type == 0) ? 1:
-                    withdrawExcerption(amt, type, type2,extra);
+            if(type == 0){
+                type2 = 1;
+                if(withdraw(extra, type2)){
+                    cout << "Here 0:" << endl; //debug
+                    deposit(extra,type);
+                    withdraw(amt, type);
+                    return true;
+                }
+            }
+            else{
+                type2 = 0;
+                if(withdraw(extra, type2)){
+                    cout << "Here 1:" << endl; //debug
+                    deposit(extra,type);
+                    withdraw(amt, type);
+                    return true;
+                }
+            }
         }
         if(type == 2 || type == 3){
-            type2 = (type == 2) ? 3:
-                    withdrawExcerption(amt, type, type2,extra);
+            if(type == 2){
+                type2 = 3;
+                if(withdraw(extra, type2)){
+                    cout << "Here 2:" << endl; //debug
+                    deposit(extra,type);
+                    withdraw(amt, type);
+                    return true;
+                }
+            }
+            else{
+                type2 = 2;
+                if(withdraw(extra, type2)){
+                    cout << "Here 3:" << endl; //debug
+                    deposit(extra,type);
+                    withdraw(amt, type);
+                    return true;
+                }
+            }
         }
         cout << "Error, attempting to take out more than available balance.";
         return false;
@@ -67,21 +99,10 @@ bool Account::withdraw(int amt, int type) {
 
     // else, continue to withdraw from fund
     acctFunds[type].balance -= amt;
-
+    //string trans = "T" + <string>(accID) + <string>(type)+ <string>(amt);
+    //record transaction
+    //recordTrans(trans,type);
     return true;
-}
-
-//helper function to throw exception
-//overdraft coverage
-bool Account::withdrawExcerption(int amt, int fundTo, int fundFrom,int extra){
-    //must check if other fund has enough
-    if(acctFunds[fundFrom].balance - extra > -1){
-        transfer(this, extra, fundFrom, fundTo);
-        withdraw(amt,fundTo);
-        return true;
-    }
-    return false;
-
 }
 
 // transfers amount into one fund type to another of the same account or other
