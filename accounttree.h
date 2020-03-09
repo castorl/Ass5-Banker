@@ -31,12 +31,6 @@ class AccountTree {
     // check if tree is empty
     bool isEmpty() const;
 
-    // retrieves address of an account
-    Account& fetch(int& id) const;
-
-    // return true if the account ID number is already in use
-    bool idExists(int& id) const;
-
   private:
     class Node {
       public:
@@ -80,10 +74,4 @@ class AccountTree {
     // recursive retrieve helper
     bool retrieveRecursive(Node* curr, const int& acctID,
                            Account*& account) const;
-
-    // recursive find ID helper
-    bool findId(int& id, Node* curr) const;
-
-    // fetch account recursive helper method
-    Node* fetchR(int id, Node* curr) const;
 };
