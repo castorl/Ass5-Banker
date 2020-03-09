@@ -18,8 +18,8 @@
 #include <array>
 #include <iostream>
 #include <ostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -62,17 +62,17 @@ class Account {
     string getLast() const;
 
     // helper function that records transcations to each fund
-    void recordTrans(string& transaction, int num);
+    void recordTrans(const string& transaction, int num);
     
   private:
     // Fund has its own properties
     struct Fund {
         // name of fun
-        string fundName;
+        string FundName;
         // balance for specific fund
-        int balance = 0;
+        int Balance = 0;
         // list to record transactions for that fund
-        vector<string> fundRecord;
+        vector<string> FundRecord;
     };
 
     // array of funds to keep track of everything

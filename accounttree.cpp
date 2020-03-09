@@ -7,7 +7,7 @@
 using namespace std;
 
 // constructor
-AccountTree::AccountTree() : root(nullptr) {}
+AccountTree::AccountTree() = default;
 
 // Delete all nodes in BST
 AccountTree::~AccountTree() { clear(); }

@@ -14,21 +14,12 @@ int main(int argc, char* argv[]) {
         cout << "The command line argument(s) was " << argv[i] << endl;
         string fileName = argv[i];
 
-        try {
-            bank.processTransactions(fileName);
-        } catch (const invalid_argument& e) {
-            cout << fileName << "could not be found." << endl;
-        }
-
+        bank.processTransactions(fileName)
         bank.displayAllBankBalances();
     }
     */
 
-    try {
-        bank.processTransactions("BankTransIn.txt");
-    } catch (const invalid_argument& e) {
-        //cout << fileName << "could not be found." << endl;
-    }
+    bank.processTransactions("BankTransIn.txt");
 
     cout << "Processing Done. Final Balances." << endl;
     bank.displayAllBankBalances();
