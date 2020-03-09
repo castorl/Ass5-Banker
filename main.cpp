@@ -1,5 +1,5 @@
 //
-// Created by Melanie Alexandra Palomino & Alana Yao on March 13, 2020.
+// Created by Melanie Alexandra Palomino & Alana Yao on March 6, 2020.
 //
 
 #include "bank.h"
@@ -9,8 +9,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    Bank bank;
-
+    Bank bank; /*
     for (int i = 1; i < argc; i++) {
         cout << "The command line argument(s) was " << argv[i] << endl;
         string fileName = argv[i];
@@ -23,6 +22,16 @@ int main(int argc, char* argv[]) {
 
         bank.displayAllBankBalances();
     }
+    */
+
+    try {
+        bank.processTransactions("BankTransIn.txt");
+    } catch (const invalid_argument& e) {
+        //cout << fileName << "could not be found." << endl;
+    }
+
+    cout << "Processing Done. Final Balances." << endl;
+    bank.displayAllBankBalances();
 
     cout << "Done" << endl;
 

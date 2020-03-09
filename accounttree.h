@@ -20,7 +20,7 @@ class AccountTree {
 
     // Retrieve account
     // returns true if successful AND *Account points to account
-    bool retrieve(const int& accountNumber, Account*& account) const;
+    bool retrieve(const int& accountNumber, Account*& account);
 
     // Display information on all accounts
     void display() const;
@@ -72,6 +72,5 @@ class AccountTree {
     void clearR(Node* curr);
 
     // recursive retrieve helper
-    bool retrieveRecursive(Node* curr, const int& acctID,
-                           Account*& account) const;
+    bool retrieveRecursive(Node* curr, const int& acctID, Account*& account);
 };

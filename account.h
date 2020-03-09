@@ -70,7 +70,7 @@ class Account {
         // name of fun
         string fundName;
         // balance for specific fund
-        int balance;
+        int balance = 0;
         // list to record transactions for that fund
         vector<string> fundRecord;
     };
