@@ -41,13 +41,16 @@ Account::~Account() {}
 // deposits amount into fund type of account
 bool Account::deposit(int amt, int type) {
     // deposit amount
+    string trans = "D " + to_string(accID) + to_string(type) + " " ;
+    trans += to_string(amt);
+    recordTrans(trans,type); 
     acctFunds[type].balance += amt;
-
     return true;
 }
 
 // withdraws ammunt from fund type
 bool Account::withdraw(int amt, int type) {
+    string trans;
     // checks if amount is too high
     if (amt > acctFunds[type].balance) {
         //calculate amount needed to cover the shortage
@@ -93,27 +96,33 @@ bool Account::withdraw(int amt, int type) {
                 }
             }
         }
+        trans = "W " + to_string(accID) + to_string(type) + " " ;
+        trans += to_string(amt) + " FAILED";
+        recordTrans(trans,type);
         cout << "Error, attempting to take out more than available balance.";
         return false;
     }
 
-    // else, continue to withdraw from fund
+    trans = "W " + to_string(accID) + to_string(type) + " " ;
+    trans += to_string(amt);
+    recordTrans(trans,type);
     acctFunds[type].balance -= amt;
-    //string trans = "T" + <string>(accID) + <string>(type)+ <string>(amt);
-    //record transaction
-    //recordTrans(trans,type);
     return true;
 }
 
 // transfers amount into one fund type to another of the same account or other
 bool Account::transfer(Account* other, int amt, int type, int oType) {
+    string trans;
     // check if account has enough to withdraw
     if (other->withdraw(amt, type)) {
-        string trans = "T" + to_string(this->accID) + to_string(type)+ to_string(amt);
-        trans += to_string(other->accID) + to_string(type);
+        trans = "T " + to_string(this->accID) + to_string(type)+ + " " ;
+        trans += to_string(amt) + " " + to_string(other->accID) + to_string(type);
         recordTrans(trans,type);
-        return deposit(amt, oType); // deposit to other accout
+        return deposit(amt, oType); // deposit to other account
     }
+    trans = "T " + to_string(this->accID) + to_string(type)+ + " " ;
+    trans += to_string(amt) + " " + to_string(other->accID) + to_string(type) + " FAILED";
+    recordTrans(trans,type);
     return false;
 }
 
