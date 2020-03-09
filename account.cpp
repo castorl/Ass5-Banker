@@ -5,8 +5,8 @@
 #include "account.h"
 #include <iostream>
 #include <ostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace std;
 // displays account info and final fund balances
@@ -14,35 +14,34 @@ ostream& operator<<(ostream& out, const Account& other) {
     cout << other.firstName << " " << other.lastName
         << " Account ID:" << other.accID << "\n";
 
-    for (int i = 0; i < 10; i++) {
-        cout << "\t" << other.acctFunds[i].fundName << ": "
-            << other.acctFunds[i].balance << "\n";
+    for (const auto & acctFund : other.acctFunds) {
+        cout << "\t" << acctFund.FundName << ": "
+            << acctFund.Balance << "\n";
     }
     return out;
 }
 
 // creates account with name, lastname and accID
-Account::Account(string lastName, string firstName, int accID) {
-    this->firstName = firstName;
-    this->lastName = lastName;
-    this->accID = accID;
+Account::Account(string lastName, string firstName, int accID) : 
+    firstName(move(firstName)), lastName(move(lastName)), accID(move(accID)) {
+    
     string name[] = {
         "Money Market",      "Prime Money Market", "Long-Term Bond",
         "Short-Term Bond",   "500 Index Fund",     "Capital Value Fund",
         "Growth Equity Fund","Growth Index Fund",  "Value Fund",
         "Value Stock Index"};
     for (int i = 0; i < 10; i++) {
-        acctFunds[i].fundName = name[i];
+        acctFunds[i].FundName = name[i];
     }
 }
 
 // destructor
-Account::~Account() {}
+Account::~Account() = default;
 
 // deposits amount into fund type of account
 bool Account::deposit(int amt, int type) {
     // deposit amount
-    acctFunds[type].balance += amt;
+    acctFunds[type].Balance += amt;
 
     return true;
 }
@@ -50,12 +49,12 @@ bool Account::deposit(int amt, int type) {
 // withdraws amount from fund type
 bool Account::withdraw(int amt, int type) {
     // checks if amount is too high
-    if (amt > acctFunds[type].balance) {
+    if (amt > acctFunds[type].Balance) {
         return false;
     }
     
     // else, continue to withdraw from fund
-    acctFunds[type].balance -= amt;
+    acctFunds[type].Balance -= amt;
 
     return true;
 }
@@ -79,24 +78,24 @@ void Account::displayTrans(int fund) const {
          << lastName;
     if (fund == -1) { // if no fund specified, display all histories
         cout << " by fund." << endl;
-        for (Fund a : acctFunds) {
-            cout << a.fundName << ": $" << a.balance << endl;
-            for (int i = 0; i < a.fundRecord.size(); i++) {
-                cout << "\t" << a.fundRecord[i] << endl;
+        for (const auto & a : acctFunds) {
+            cout << a.FundName << ": $" << a.Balance << endl;
+            for (const auto & i: a.FundRecord) {
+                cout << "\t" << i << endl;
             }
         } 
     } else {
-        cout << "'s " << acctFunds[fund].fundName << ": $"
-             << acctFunds[fund].balance << endl;
-        for (int i = 0; i < acctFunds[fund].fundRecord.size(); i++) {
-            cout << "\t" << acctFunds[fund].fundRecord[i] << endl;
+        cout << "'s " << acctFunds[fund].FundName << ": $"
+             << acctFunds[fund].Balance << endl;
+        for (const auto & i : acctFunds[fund].FundRecord) {
+            cout << "\t" << i << endl;
         }
     }
 }
 
 // helper function that records transactions to each fund
-void Account::recordTrans(string& transaction, int num) {
-    acctFunds[num].fundRecord.push_back(transaction);
+void Account::recordTrans(const string& transaction, int num) {
+    acctFunds[num].FundRecord.push_back(transaction);
 }
 
 // returns ID of this account

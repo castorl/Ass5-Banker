@@ -15,43 +15,28 @@
  *
  * */
 #include "bank.h"
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <queue>
 #include <sstream>
 #include <stdexcept>
-#include <stdlib.h>
 #include <string>
 
 using namespace std;
 
 // constuctor for bank
-Bank::Bank() {}
+Bank::Bank() = default;
 
 // destructor for bank
-Bank::~Bank() {
-    // nothing to delete
-}
-
-// Function calls function to add transactions to queue
-// Calls helper functions to processes transactions
-void Bank::processTransactions(const string& fileName) {
-    // call helper funciton to add and create structs
-    addToQueue(fileName);
-    // call function to process queue
-    processQueue();
-}
+Bank::~Bank() = default;
+// nothing to delete
 
 // process file's lines as transactions and add to queue
-// throws invalid_argument exception if fileName not found
 void Bank::addToQueue(const string& fileName) {
     // create file reader
     ifstream inFile;
     inFile.open(fileName);
-
-    if (!inFile) {
-        throw invalid_argument("Invalid file name!");
-    }
 
     string line;
     char type;
@@ -70,10 +55,10 @@ void Bank::addToQueue(const string& fileName) {
             s >> lastName >> firstName >> acctNum;
 
             Action newAcct;
-            newAcct.transType = type;
-            newAcct.last = lastName;
-            newAcct.first = firstName;
-            newAcct.acctTo = acctNum;
+            newAcct.TransType = type;
+            newAcct.Last = lastName;
+            newAcct.First = firstName;
+            newAcct.AcctTo = acctNum;
 
             transactionsQ.push(newAcct);
             break;
@@ -85,10 +70,10 @@ void Bank::addToQueue(const string& fileName) {
             acctNum = acctNum / 10;
 
             Action deposit;
-            deposit.transType = type;
-            deposit.acctTo = acctNum;
-            deposit.amount = amt;
-            deposit.fundTo = fund;
+            deposit.TransType = type;
+            deposit.AcctTo = acctNum;
+            deposit.Amount = amt;
+            deposit.FundTo = fund;
 
             transactionsQ.push(deposit);
             break;
@@ -100,10 +85,10 @@ void Bank::addToQueue(const string& fileName) {
             acctNum = acctNum / 10;
 
             Action withdraw;
-            withdraw.transType = type;
-            withdraw.acctFrom = acctNum;
-            withdraw.amount = amt;
-            withdraw.fundFrom = fund;
+            withdraw.TransType = type;
+            withdraw.AcctFrom = acctNum;
+            withdraw.Amount = amt;
+            withdraw.FundFrom = fund;
 
             transactionsQ.push(withdraw);
             break;
@@ -117,12 +102,12 @@ void Bank::addToQueue(const string& fileName) {
             acctNum2 = acctNum2 / 10;
 
             Action transfer;
-            transfer.transType = type;
-            transfer.acctTo = acctNum2;
-            transfer.acctFrom = acctNum;
-            transfer.amount = amt;
-            transfer.fundFrom = fund;
-            transfer.fundTo = fund2;
+            transfer.TransType = type;
+            transfer.AcctTo = acctNum2;
+            transfer.AcctFrom = acctNum;
+            transfer.Amount = amt;
+            transfer.FundFrom = fund;
+            transfer.FundTo = fund2;
 
             transactionsQ.push(transfer);
             break;
@@ -137,11 +122,15 @@ void Bank::addToQueue(const string& fileName) {
                 fund = -1; // no fund specified
             }
             Action history;
-            history.transType = type;
-            history.acctFrom = acctNum;
-            history.fundFrom = fund;
+            history.TransType = type;
+            history.AcctFrom = acctNum;
+            history.FundFrom = fund;
 
             transactionsQ.push(history);
+            break;
+        }
+        default: {
+            cout << "Invalid transaction type.";
             break;
         }
         }
@@ -149,16 +138,20 @@ void Bank::addToQueue(const string& fileName) {
     inFile.close();
 }
 
-// helper function that executes transactions, uses switch case to decide
-void Bank::processQueue() {
+// Function calls function to add transactions to queue
+// Calls helper functions to processes transactions
+void Bank::processTransactions(const string& fileName) {
+    // call helper funciton to add and create structs
+    addToQueue(fileName);
+    // process the queue
     Account* hold; // holds the account searched for, if found
     while (!transactionsQ.empty()) {
         Action* tracker = &transactionsQ.front(); // holds first item in queue
-        switch (tracker->transType) {
+        switch (tracker->TransType) {
         case 'O': { // open account
             Account* openNew =
-                new Account(tracker->first, tracker->last, tracker->acctTo);
-            if (accounts.retrieve(tracker->acctTo, hold)) {
+                new Account(tracker->First, tracker->Last, tracker->AcctTo);
+            if (accounts.retrieve(tracker->AcctTo, hold)) {
                 // if the account number is already in use
                 cout << "Error, account ID already in use.";
                 break;
@@ -167,32 +160,32 @@ void Bank::processQueue() {
             break;
         }
         case 'D': { // deposit
-            if (accounts.retrieve(tracker->acctTo, hold)) {
+            if (accounts.retrieve(tracker->AcctTo, hold)) {
                 // make the deposit and record the transaction
-                hold->deposit(tracker->amount, tracker->fundTo);
+                hold->deposit(tracker->Amount, tracker->FundTo);
                 string recordD;
-                recordD += tracker->transType;
-                recordD += " " + to_string(tracker->acctTo) +
-                           to_string(tracker->fundTo) + " " +
-                           to_string(tracker->amount);
-                hold->recordTrans(recordD, tracker->fundTo);
+                recordD += tracker->TransType;
+                recordD += " " + to_string(tracker->AcctTo) +
+                           to_string(tracker->FundTo) + " " +
+                           to_string(tracker->Amount);
+                hold->recordTrans(recordD, tracker->FundTo);
             } else { // if account not found
                 cout << "Could not locate account with client ID "
-                     << tracker->acctTo << "." << endl;
+                     << tracker->AcctTo << "." << endl;
             }
             break;
         }
         // withdraw
         case 'W': {
-            if (accounts.retrieve(tracker->acctFrom, hold)) {
-                if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
+            if (accounts.retrieve(tracker->AcctFrom, hold)) {
+                if (hold->withdraw(tracker->Amount, tracker->FundFrom)) {
                     // make the withdrawal and record the transaction
                     string recordW;
-                    recordW += tracker->transType;
-                    recordW += " " + to_string(tracker->acctFrom) +
-                               to_string(tracker->fundFrom) + " " +
-                               to_string(tracker->amount);
-                    hold->recordTrans(recordW, tracker->fundFrom);
+                    recordW += tracker->TransType;
+                    recordW += " " + to_string(tracker->AcctFrom) +
+                               to_string(tracker->FundFrom) + " " +
+                               to_string(tracker->Amount);
+                    hold->recordTrans(recordW, tracker->FundFrom);
                     ;
                 } else
                     cout << "Error, attempting to take out more than "
@@ -201,7 +194,7 @@ void Bank::processQueue() {
             } else {
                 // print error in transaction history of no account
                 cout << "Could not locate account with client ID "
-                     << tracker->acctTo << "." << endl;
+                     << tracker->AcctTo << "." << endl;
             }
             break;
         }
@@ -209,26 +202,26 @@ void Bank::processQueue() {
         case 'T': {
             Account* hold2; // pointer to hold the account to transfer to
             // if both accounts exist
-            if (accounts.retrieve(tracker->acctFrom, hold) &&
-                accounts.retrieve(tracker->acctTo, hold2)) {
-                if (hold->withdraw(tracker->amount, tracker->fundFrom)) {
+            if (accounts.retrieve(tracker->AcctFrom, hold) &&
+                accounts.retrieve(tracker->AcctTo, hold2)) {
+                if (hold->withdraw(tracker->Amount, tracker->FundFrom)) {
                     // make the withdrawal and record the transaction
                     string recordW;
-                    recordW += tracker->transType;
-                    recordW += " " + to_string(tracker->acctFrom) +
-                               to_string(tracker->fundFrom) + " " +
-                               to_string(tracker->amount) + " " +
-                               to_string(tracker->acctTo) +
-                               to_string(tracker->fundTo);
-                    hold->recordTrans(recordW, tracker->fundFrom);
+                    recordW += tracker->TransType;
+                    recordW += " " + to_string(tracker->AcctFrom) +
+                               to_string(tracker->FundFrom) + " " +
+                               to_string(tracker->Amount) + " " +
+                               to_string(tracker->AcctTo) +
+                               to_string(tracker->FundTo);
+                    hold->recordTrans(recordW, tracker->FundFrom);
                     ;
                     // make the desposit and record the transaction
-                    hold2->deposit(tracker->amount, tracker->fundTo);
-                    string recordD = to_string(tracker->transType) + " " +
-                                     to_string(tracker->acctTo) +
-                                     to_string(tracker->fundTo) + " " +
-                                     to_string(tracker->amount);
-                    hold2->recordTrans(recordD, tracker->fundTo);
+                    hold2->deposit(tracker->Amount, tracker->FundTo);
+                    string recordD = to_string(tracker->TransType) + " " +
+                                     to_string(tracker->AcctTo) +
+                                     to_string(tracker->FundTo) + " " +
+                                     to_string(tracker->Amount);
+                    hold2->recordTrans(recordD, tracker->FundTo);
                 } else
                     cout << "Error, attempting to take out more than "
                             "available balance."
@@ -242,12 +235,16 @@ void Bank::processQueue() {
         }
         // print history
         case 'H': {
-            if (accounts.retrieve(tracker->acctFrom, hold)) {
-                hold->displayTrans(tracker->fundFrom);
+            if (accounts.retrieve(tracker->AcctFrom, hold)) {
+                hold->displayTrans(tracker->FundFrom);
             } else {
-            cout << "Could not locate account with client ID "
-                     << tracker->acctFrom << "." << endl;
+                cout << "Could not locate account with client ID "
+                     << tracker->AcctFrom << "." << endl;
             }
+            break;
+        }
+        default: {
+            cout << "Invalid transaction type.";
             break;
         }
         } // end of switch

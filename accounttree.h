@@ -60,7 +60,7 @@ class AccountTree {
         Node* left;
     };
 
-    Node* root;
+    Node* root = nullptr;
 
     // recursive insert helper function
     bool insertRecursive(Node* curr, Account* account);

@@ -13,7 +13,6 @@
 #include "accounttree.h"
 #include <fstream>
 #include <queue>
-#include <string>
 
 using namespace std;
 
@@ -37,21 +36,17 @@ class Bank {
     AccountTree accounts;
 
     struct Action {
-        char transType;
+        char TransType;
         // maybe change to acctOf to avoid confusion
-        int acctTo;
-        int acctFrom;
-        int amount;
-        string first;
-        string last;
-        int fundTo;
-        int fundFrom;
+        int AcctTo;
+        int AcctFrom;
+        int Amount;
+        string First;
+        string Last;
+        int FundTo;
+        int FundFrom;
     };
 
     queue<Action> transactionsQ;
 
-    // helper function to run transactions
-    // use the switch case for transactions of either opening, depositing,
-    // withdrawing, transferring or displaying to the correct account
-    void processQueue();
 };
