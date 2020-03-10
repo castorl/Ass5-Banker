@@ -1,0 +1,217 @@
+Mon Mar  9 19:38:42 PDT 2020
+*** compiling with clang++ to create an executable called myprogram
+clang version 7.0.1 (tags/RELEASE_701/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/rh/llvm-toolset-7.0/root/usr/bin
+*** running clang-tidy using options from .clang-tidy
+LLVM (http://llvm.org/):
+  LLVM version 7.0.1
+  Optimized build.
+  Default target: x86_64-unknown-linux-gnu
+  Host CPU: broadwell
+11804 warnings generated.
+23511 warnings generated.
+37753 warnings generated.
+51538 warnings generated.
+Suppressed 51547 warnings (51538 in non-user code, 9 NOLINT).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+*** running myprogram
+The command line argument(s) was BankTransIn2.txt
+Error, attempting to take out more than available balance.
+Error, attempting to take out more than available balance.
+Displaying Transaction History for Dollar Bobby by fund.
+Money Market: $53209118
+	D 10010 54200000
+	D 10010 7576
+	T 10010 998458 10011
+	T 10010 54000 10011
+	84 10010 54000
+	T 10010 5 10010
+	84 10010 5
+Prime Money Market: $0
+	D 10011 1542
+	W 10011 1000000
+	T 10011 54000 10010
+Long-Term Bond: $5442
+	D 10012 5442
+Short-Term Bond: $0
+500 Index Fund: $0
+Capital Value Fund: $0
+Growth Equity Fund: $0
+	W 10016 0
+Growth Index Fund: $0
+Value Fund: $0
+Value Stock Index: $0
+	D 10019 0
+Displaying Transaction History for Waffles Honey's 500 Index Fund: $0
+Displaying Transaction History for Waffles Honey by fund.
+Money Market: $10000
+	D 12530 10000
+Prime Money Market: $10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $0
+Capital Value Fund: $0
+Growth Equity Fund: $0
+Growth Index Fund: $0
+Value Fund: $0
+Value Stock Index: $10000
+	D 12539 10000
+Could not locate account with client ID 987.
+Could not locate account with client ID 98.
+Processing Done. Final Balances.
+
+Dollar Bobby Account ID:1001
+	Money Market: 53209118
+	Prime Money Market: 0
+	Long-Term Bond: 5442
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Waffles Honey Account ID:1253
+	Money Market: 10000
+	Prime Money Market: 10000
+	Long-Term Bond: 0
+	Short-Term Bond: 5000
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 765
+	Value Fund: 0
+	Value Stock Index: 9235
+
+Woof Bark Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Error, account ID already in use.
+Error, attempting to take out more than available balance.
+Error, attempting to take out more than available balance.
+Displaying Transaction History for Dollar Bobby by fund.
+Money Market: $106418236
+	D 10010 54200000
+	D 10010 7576
+	T 10010 998458 10011
+	T 10010 54000 10011
+	84 10010 54000
+	T 10010 5 10010
+	84 10010 5
+	D 10010 54200000
+	D 10010 7576
+	T 10010 998458 10011
+	T 10010 54000 10011
+	84 10010 54000
+	T 10010 5 10010
+	84 10010 5
+Prime Money Market: $0
+	D 10011 1542
+	W 10011 1000000
+	T 10011 54000 10010
+	D 10011 1542
+	W 10011 1000000
+	T 10011 54000 10010
+Long-Term Bond: $10884
+	D 10012 5442
+	D 10012 5442
+Short-Term Bond: $0
+500 Index Fund: $0
+Capital Value Fund: $0
+Growth Equity Fund: $0
+	W 10016 0
+	W 10016 0
+Growth Index Fund: $0
+Value Fund: $0
+Value Stock Index: $0
+	D 10019 0
+	D 10019 0
+Error, account ID already in use.
+Displaying Transaction History for Waffles Honey's 500 Index Fund: $0
+Displaying Transaction History for Waffles Honey by fund.
+Money Market: $20000
+	D 12530 10000
+	D 12530 10000
+Prime Money Market: $20000
+	D 12531 10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $10000
+	D 12533 10000
+	W 12533 5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $0
+Capital Value Fund: $0
+Growth Equity Fund: $0
+Growth Index Fund: $765
+	84 12537 765
+Value Fund: $0
+Value Stock Index: $19235
+	D 12539 10000
+	T 12539 765 12537
+	D 12539 10000
+Error, account ID already in use.
+Could not locate account with client ID 987.
+Could not locate account with client ID 98.
+
+Processing Done. Final Balances.
+
+Dollar Bobby Account ID:1001
+	Money Market: 106418236
+	Prime Money Market: 0
+	Long-Term Bond: 10884
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Waffles Honey Account ID:1253
+	Money Market: 20000
+	Prime Money Market: 20000
+	Long-Term Bond: 0
+	Short-Term Bond: 10000
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 1530
+	Value Fund: 0
+	Value Stock Index: 18470
+
+Woof Bark Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Done

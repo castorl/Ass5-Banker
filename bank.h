@@ -1,68 +1,53 @@
 
 //
-// Created by <Name> on <Date>. 
+// Created by Melanie Alexandra Palomino & Alana Yao on March 6, 2020.
 //
 /* Banker has three phases
-// Phase 1: Read txt and input to queue 
-// Phase 2: Runs every transaction 
-// Phase 3: Displays all open accounts and balances in these accounts 
+// Phase 1: Read txt and input to queue
+// Phase 2: Runs every transaction
+// Phase 3: Displays all open accounts and balances in these accounts
 */
 
 #pragma once
 
 #include "accounttree.h"
 #include <fstream>
-#include <string>
-#include <queue> 
+#include <queue>
 
 using namespace std;
 
 class Bank {
   public:
-    // constructor for bank 
+    // constructor for bank
     Bank();
-    // destructor for bank 
+    // destructor for bank
     ~Bank();
-    
-    
+
     // calls helper functions to process transactions
     void processTransactions(const string& fileName);
 
     // helper function to add transactions to queue
-    void addToQueue(const string& fileName); 
+    void addToQueue(const string& fileName);
 
-    // displays accounts' fund balances 
+    // displays accounts' fund balances
     void displayAllBankBalances() const;
 
-
   private:
-    
     AccountTree accounts;
 
-    struct Action{
-      char transType; 
-      int acctTo; 
-      int acctFrom;
-      int amount; 
-      string first; 
-      string last; 
-      int fundTo; 
-      int fundFrom;
+    struct Action {
+
+        char TransType{};
+        // maybe change to acctOf to avoid confusion
+        int AcctTo{};
+        int AcctFrom{};
+        int Amount{};
+        string First;
+        string Last;
+        int FundTo{};
+        int FundFrom{};
     };
 
-    queue <Action> transactionsQ;
-
-    // helper function to set transaction type
-    void transClassification();
-
-    // helper function to run transactions
-    // use the switch case for transactions of either opening, depositing, 
-    // withdrawing, transferring or displaying to the correct account 
-    void processQueue();
-
-    // function helper to determine the type of transaction 
-    // void transactionType(const string& transaction, char type);
-
-    //helper function to check input data
-    // bool checkData(stringstream& s,int& amt, int& fund, int& ID, int& ID2, int& fund2); 
+    // queue that holds the transactions read from the file
+    queue<Action> transactionsQ;
 };
