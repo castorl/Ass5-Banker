@@ -1,0 +1,487 @@
+Mon Mar  9 18:48:35 PDT 2020
+*** compiling with clang++ to create an executable called myprogram
+clang version 7.0.1 (tags/RELEASE_701/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/rh/llvm-toolset-7.0/root/usr/bin
+*** running clang-tidy using options from .clang-tidy
+LLVM (http://llvm.org/):
+  LLVM version 7.0.1
+  Optimized build.
+  Default target: x86_64-unknown-linux-gnu
+  Host CPU: broadwell
+11804 warnings generated.
+23511 warnings generated.
+37753 warnings generated.
+51538 warnings generated.
+Suppressed 51547 warnings (51538 in non-user code, 9 NOLINT).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+*** running myprogram
+The command line argument(s) was BankTransIn.txt
+Displaying Transaction History for Cash Johnny by fund.
+Money Market: $470
+	D 10010 542
+	W 10010 72
+Prime Money Market: $3042
+	D 10011 1542
+	D 10011 1500
+Long-Term Bond: $10442
+	D 10012 5442
+	D 10012 5000
+Short-Term Bond: $14540
+	D 10013 7540
+	D 10013 7000
+500 Index Fund: $0
+Capital Value Fund: $54
+	84 10015 54
+Growth Equity Fund: $5984
+	D 10016 7542
+	D 10016 7576
+	W 10016 65
+	T 10016 9069 10017
+Growth Index Fund: $0
+	D 10017 5442
+	D 10017 6543
+	W 10017 1000
+	T 10017 54 10015
+	W 10017 20000
+Value Fund: $0
+Value Stock Index: $0
+Displaying Transaction History for Williams Hank's 500 Index Fund: $10000
+	D 12534 10000
+Displaying Transaction History for Williams Hank by fund.
+Money Market: $10000
+	D 12530 10000
+Prime Money Market: $10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $10000
+	D 12534 10000
+Capital Value Fund: $10000
+	D 12535 10000
+Growth Equity Fund: $10000
+	D 12536 10000
+Growth Index Fund: $10000
+	D 12537 10000
+Value Fund: $10000
+	D 12538 10000
+Value Stock Index: $10000
+	D 12539 10000
+Could not locate account of one or more of the client IDs.
+Error, account ID already in use.
+Processing Done. Final Balances.
+
+Cash Johnny Account ID:1001
+	Money Market: 470
+	Prime Money Market: 3042
+	Long-Term Bond: 10442
+	Short-Term Bond: 14540
+	500 Index Fund: 0
+	Capital Value Fund: 54
+	Growth Equity Fund: 5984
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Williams Hank Account ID:1253
+	Money Market: 10000
+	Prime Money Market: 10000
+	Long-Term Bond: 0
+	Short-Term Bond: 5000
+	500 Index Fund: 10000
+	Capital Value Fund: 10000
+	Growth Equity Fund: 10000
+	Growth Index Fund: 10000
+	Value Fund: 10000
+	Value Stock Index: 10000
+
+Nelson Willie Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Error, account ID already in use.
+Error, attempting to take out more than available balance.
+Error, attempting to take out more than available balance.
+Displaying Transaction History for Cash Johnny by fund.
+Money Market: $53212630
+	D 10010 542
+	W 10010 72
+	D 10010 54200000
+	D 10010 7576
+	T 10010 995416 10011
+	T 10010 54000 10011
+	84 10010 54000
+	T 10010 5 10010
+	84 10010 5
+Prime Money Market: $0
+	D 10011 1542
+	D 10011 1500
+	D 10011 1542
+	W 10011 1000000
+	T 10011 54000 10010
+Long-Term Bond: $15884
+	D 10012 5442
+	D 10012 5000
+	D 10012 5442
+Short-Term Bond: $14540
+	D 10013 7540
+	D 10013 7000
+500 Index Fund: $0
+Capital Value Fund: $54
+	84 10015 54
+Growth Equity Fund: $5984
+	D 10016 7542
+	D 10016 7576
+	W 10016 65
+	T 10016 9069 10017
+	W 10016 0
+Growth Index Fund: $0
+	D 10017 5442
+	D 10017 6543
+	W 10017 1000
+	T 10017 54 10015
+	W 10017 20000
+Value Fund: $0
+Value Stock Index: $0
+	D 10019 0
+Error, account ID already in use.
+Displaying Transaction History for Williams Hank's 500 Index Fund: $10000
+	D 12534 10000
+Displaying Transaction History for Williams Hank by fund.
+Money Market: $20000
+	D 12530 10000
+	D 12530 10000
+Prime Money Market: $20000
+	D 12531 10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $10000
+	D 12533 10000
+	W 12533 5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $10000
+	D 12534 10000
+Capital Value Fund: $10000
+	D 12535 10000
+Growth Equity Fund: $10000
+	D 12536 10000
+Growth Index Fund: $10000
+	D 12537 10000
+Value Fund: $10000
+	D 12538 10000
+Value Stock Index: $20000
+	D 12539 10000
+	D 12539 10000
+Error, account ID already in use.
+
+Processing Done. Final Balances.
+
+Nelson Willie Account ID:987
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 50
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Cash Johnny Account ID:1001
+	Money Market: 53212630
+	Prime Money Market: 0
+	Long-Term Bond: 15884
+	Short-Term Bond: 14540
+	500 Index Fund: 0
+	Capital Value Fund: 54
+	Growth Equity Fund: 5984
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Williams Hank Account ID:1253
+	Money Market: 20000
+	Prime Money Market: 20000
+	Long-Term Bond: 0
+	Short-Term Bond: 10000
+	500 Index Fund: 10000
+	Capital Value Fund: 10000
+	Growth Equity Fund: 10000
+	Growth Index Fund: 10765
+	Value Fund: 10000
+	Value Stock Index: 19235
+
+Nelson Willie Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Done
+==29597== Memcheck, a memory error detector
+==29597== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==29597== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==29597== Command: ./myprogram BankTransIn.txt
+==29597== 
+The command line argument(s) was BankTransIn.txt
+Displaying Transaction History for Cash Johnny by fund.
+Money Market: $470
+	D 10010 542
+	W 10010 72
+Prime Money Market: $3042
+	D 10011 1542
+	D 10011 1500
+Long-Term Bond: $10442
+	D 10012 5442
+	D 10012 5000
+Short-Term Bond: $14540
+	D 10013 7540
+	D 10013 7000
+500 Index Fund: $0
+Capital Value Fund: $54
+	84 10015 54
+Growth Equity Fund: $5984
+	D 10016 7542
+	D 10016 7576
+	W 10016 65
+	T 10016 9069 10017
+Growth Index Fund: $0
+	D 10017 5442
+	D 10017 6543
+	W 10017 1000
+	T 10017 54 10015
+	W 10017 20000
+Value Fund: $0
+Value Stock Index: $0
+Displaying Transaction History for Williams Hank's 500 Index Fund: $10000
+	D 12534 10000
+Displaying Transaction History for Williams Hank by fund.
+Money Market: $10000
+	D 12530 10000
+Prime Money Market: $10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $10000
+	D 12534 10000
+Capital Value Fund: $10000
+	D 12535 10000
+Growth Equity Fund: $10000
+	D 12536 10000
+Growth Index Fund: $10000
+	D 12537 10000
+Value Fund: $10000
+	D 12538 10000
+Value Stock Index: $10000
+	D 12539 10000
+Could not locate account of one or more of the client IDs.
+Error, account ID already in use.
+Processing Done. Final Balances.
+
+Cash Johnny Account ID:1001
+	Money Market: 470
+	Prime Money Market: 3042
+	Long-Term Bond: 10442
+	Short-Term Bond: 14540
+	500 Index Fund: 0
+	Capital Value Fund: 54
+	Growth Equity Fund: 5984
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Williams Hank Account ID:1253
+	Money Market: 10000
+	Prime Money Market: 10000
+	Long-Term Bond: 0
+	Short-Term Bond: 5000
+	500 Index Fund: 10000
+	Capital Value Fund: 10000
+	Growth Equity Fund: 10000
+	Growth Index Fund: 10000
+	Value Fund: 10000
+	Value Stock Index: 10000
+
+Nelson Willie Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Error, account ID already in use.
+Error, attempting to take out more than available balance.
+Error, attempting to take out more than available balance.
+Displaying Transaction History for Cash Johnny by fund.
+Money Market: $53212630
+	D 10010 542
+	W 10010 72
+	D 10010 54200000
+	D 10010 7576
+	T 10010 995416 10011
+	T 10010 54000 10011
+	84 10010 54000
+	T 10010 5 10010
+	84 10010 5
+Prime Money Market: $0
+	D 10011 1542
+	D 10011 1500
+	D 10011 1542
+	W 10011 1000000
+	T 10011 54000 10010
+Long-Term Bond: $15884
+	D 10012 5442
+	D 10012 5000
+	D 10012 5442
+Short-Term Bond: $14540
+	D 10013 7540
+	D 10013 7000
+500 Index Fund: $0
+Capital Value Fund: $54
+	84 10015 54
+Growth Equity Fund: $5984
+	D 10016 7542
+	D 10016 7576
+	W 10016 65
+	T 10016 9069 10017
+	W 10016 0
+Growth Index Fund: $0
+	D 10017 5442
+	D 10017 6543
+	W 10017 1000
+	T 10017 54 10015
+	W 10017 20000
+Value Fund: $0
+Value Stock Index: $0
+	D 10019 0
+Error, account ID already in use.
+Displaying Transaction History for Williams Hank's 500 Index Fund: $10000
+	D 12534 10000
+Displaying Transaction History for Williams Hank by fund.
+Money Market: $20000
+	D 12530 10000
+	D 12530 10000
+Prime Money Market: $20000
+	D 12531 10000
+	D 12531 10000
+Long-Term Bond: $0
+	D 12532 10000
+	W 12532 10000
+	D 12532 10000
+	W 12532 10000
+Short-Term Bond: $10000
+	D 12533 10000
+	W 12533 5000
+	D 12533 10000
+	W 12533 5000
+500 Index Fund: $10000
+	D 12534 10000
+Capital Value Fund: $10000
+	D 12535 10000
+Growth Equity Fund: $10000
+	D 12536 10000
+Growth Index Fund: $10000
+	D 12537 10000
+Value Fund: $10000
+	D 12538 10000
+Value Stock Index: $20000
+	D 12539 10000
+	D 12539 10000
+Error, account ID already in use.
+
+Processing Done. Final Balances.
+
+Nelson Willie Account ID:987
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 50
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Cash Johnny Account ID:1001
+	Money Market: 53212630
+	Prime Money Market: 0
+	Long-Term Bond: 15884
+	Short-Term Bond: 14540
+	500 Index Fund: 0
+	Capital Value Fund: 54
+	Growth Equity Fund: 5984
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Williams Hank Account ID:1253
+	Money Market: 20000
+	Prime Money Market: 20000
+	Long-Term Bond: 0
+	Short-Term Bond: 10000
+	500 Index Fund: 10000
+	Capital Value Fund: 10000
+	Growth Equity Fund: 10000
+	Growth Index Fund: 10765
+	Value Fund: 10000
+	Value Stock Index: 19235
+
+Nelson Willie Account ID:9876
+	Money Market: 0
+	Prime Money Market: 0
+	Long-Term Bond: 0
+	Short-Term Bond: 0
+	500 Index Fund: 0
+	Capital Value Fund: 0
+	Growth Equity Fund: 0
+	Growth Index Fund: 0
+	Value Fund: 0
+	Value Stock Index: 0
+
+Done
+==29597== 
+==29597== HEAP SUMMARY:
+==29597==     in use at exit: 0 bytes in 0 blocks
+==29597==   total heap usage: 625 allocs, 625 frees, 43,781 bytes allocated
+==29597== 
+==29597== All heap blocks were freed -- no leaks are possible
+==29597== 
+==29597== For counts of detected and suppressed errors, rerun with: -v
+==29597== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+*** cleaning up, deleting myprogram
+Mon Mar  9 18:48:59 PDT 2020
